@@ -1,0 +1,8 @@
+﻿## Interface: 70200
+## Title: |cffbc8f8fSimple|r|cffb70000UI|r
+## Version: 1.05.2
+## Author: JB
+## Notes: Simplified Interface and Action Bar
+## SavedVariables: SUI_CONFIG
+
+SimpleUI.xml

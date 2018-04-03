@@ -1,0 +1,19 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\FrameXML\UI.xsd">
+
+	<Script file='Frame\Bar.lua' />
+	<Script file='Frame\Minimap.lua' />
+	<!--<Script file='Frame\Mapcoords.lua' />-->
+	<!--<Script file='Frame\Color.lua' />-->
+	<Script file='OptionsPanel.lua' />
+	<Include file='OptionsPanel.xml' />
+	
+	<Frame name="SimpleUI" hidden="true">
+		<Scripts>
+			<OnLoad function="SUI_RegisteredEvents"/>
+			<OnEvent function="SUI_EventHandler"/>			
+		</Scripts>
+	</Frame>
+	
+
+</Ui>
