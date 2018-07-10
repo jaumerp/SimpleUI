@@ -1,6 +1,6 @@
 ﻿## Interface: 80000
 ## Title: |cffBDBDBDSimple|r|cffb70000UI
-## Version: 2.0.07
+## Version: 2.0.08RC
 ## Author: JB
 ## Notes: A simplified Blizzard interface based on the original system.
 ## SavedVariables: SUI_CONFIG
