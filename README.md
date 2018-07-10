@@ -1,8 +1,7 @@
 # SimpleUI
 <p>A simplified Blizzard interface based on the original system.<p>
-<br>
 <p>Due to changes on new Blizzard expansion, SIMPLEUI has some new features but it does not modify the new Actions Bars (maybe in a future).</p>
-<br><br>
+<br>
 <p><b>Some features:</b>
 <ul>
   <li>Hide/Show BagSlots and Microbuttons</li>
@@ -15,5 +14,5 @@
 <p>
 <b>Options Panel</b> in Addons Interface Menu to customize your SimpleUI. You can also use Slash Commands. Type <b>/sui</b> in-game for more info.</p>
 
-<br><br>
+<br>
 <p><i>Please, advice to improve this addon. Thanks!</i></p>
