@@ -1,0 +1,422 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\FrameXML\UI.xsd">
+
+	<!-- <Script file='OptionsPanel.lua' /> -->
+	
+	<Frame name="OptionsPanel">
+		<Scripts>
+			<!--<OnLoad function="SUI_PanelOnLoad"/>  -->
+			 <OnLoad>
+				SUI_PanelOnLoad(self);
+			</OnLoad>		
+		</Scripts>
+		
+		<!-- HEADER & EXPLAINATION -->
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="$parent_Titulo" inherits="GameFontNormalLarge" text="SET_TITLE">
+					<Anchors>
+						<Anchor point="TOPLEFT" x="10" y="-15"/>
+					</Anchors>
+				</FontString>
+			</Layer>
+
+			<Layer level="ARTWORK">
+				<FontString name="$parent_Description" inherits="GameFontHighlightSmall" text="SET_NOTES" >
+					<Anchors>
+						<Anchor point="TOPLEFT" x="10" y="-45"/>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		
+		<!-- 1.BAGS, 2.MICROBUTTONS, 3.SLIDERS, 4.QTmovable,QTfadeandresize, 5.CustomChat, 6.ORDERHALLCOMMANDBAR -->
+		
+		<!-- CHECKBUTTON: BAGS -->
+		<Frames>
+			<CheckButton name="$parentCheckButton1" inherits="UICheckButtonTemplate" text="CheckButton1">
+				<Size>
+					<AbsDimension x="28" y="28" />
+				</Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parent_Description" relativePoint="BOTTOMLEFT"  x="0" y="-20"/>
+				</Anchors>
+				<Scripts>
+					<OnLoad>
+					</OnLoad>
+					<OnClick>
+						SUI_CONFIG.HideBagButtons = getglobal(self:GetName()):GetChecked();
+						--getglobal(self:GetName()):SetChecked(SUI_CONFIG.HideBagButtons);
+						setupMicroButtonandBagsbar();
+						print("HideBagButtons set to",SUI_CONFIG.HideBagButtons);
+					</OnClick>
+				</Scripts>
+			</CheckButton>
+		</Frames>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="text_$parentCheckButton1" inherits="GameFontHighlight" text="Hide the BagButtons Frame">
+					<Anchors>
+						<Anchor point="LEFT" relativeTo="$parentCheckButton1" relativePoint="RIGHT"  x="0" y="0"/>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		
+		<!-- CHECKBUTTON: MICROBUTTONS -->
+		<Frames>
+			<CheckButton name="$parentCheckButton2" inherits="UICheckButtonTemplate" text="CheckButton2">
+				<Size>
+					<AbsDimension x="28" y="28" />
+				</Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentCheckButton1" relativePoint="BOTTOMLEFT"  x="0" y="-10"/>
+				</Anchors>
+				<Scripts>
+					<OnLoad>
+					</OnLoad>
+					<OnClick>
+						SUI_CONFIG.HideMicroButtons = getglobal(self:GetName()):GetChecked();
+						--getglobal(self:GetName()):SetChecked(SUI_CONFIG.HideMicroButtons);
+						setupMicroButtonandBagsbar();
+						print("HideMicroButtons set to",SUI_CONFIG.HideMicroButtons);
+					</OnClick>
+				</Scripts>
+			</CheckButton>
+		</Frames>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="text_$parentCheckButton2" inherits="GameFontHighlight" text="Hide the MicroButtons Frame">
+					<Anchors>
+						<Anchor point="LEFT" relativeTo="$parentCheckButton2" relativePoint="RIGHT"  x="0" y="0"/>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+						
+		<!-- SLIDER MENU: FADE BAGS & MICROBUTTONS -->
+		<Frames>
+			<Slider name="$parentSlider31" inherits="OptionsSliderTemplate">			
+
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentCheckButton2" relativePoint="BOTTOMLEFT"  x="80" y="-40"/>
+				</Anchors>
+				<Scripts>
+					<OnLoad>
+					
+					</OnLoad>
+					<OnValueChanged>
+						SUI_CONFIG.mb_alpha = self:GetValue();
+						SUI_CONFIG.mb_alpha = math.floor(SUI_CONFIG.mb_alpha * 10) / 10;
+						getglobal(self:GetName().."Text"):SetFormattedText(SUI_CONFIG.mb_alpha, value);
+						setupMicroButtonandBagsbar();
+						--print(SUI_CONFIG.mb_alpha);
+					</OnValueChanged>
+				</Scripts>
+			</Slider>
+		</Frames>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="text1_$parentSlider31" inherits="GameFontNormalSmall" text="Fade Bags and MicroButtons">
+					<Anchors>
+						<Anchor point="BOTTOM" relativeTo="$parentSlider31" relativePoint="TOP"  x="0" y="15"/>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		
+		<!-- SLIDER MENU: POSITIONING BAGS & MICROBUTTONS -->
+		<Frames>
+			<Slider name="$parentSlider32" defaultValue="0" valueStep="1" inherits="OptionsSliderTemplate">			
+
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentCheckButton2" relativePoint="BOTTOMLEFT"  x="350" y="-40"/>
+				</Anchors>
+				<Scripts>
+					<OnLoad>
+					</OnLoad>
+					<OnValueChanged>
+						SUI_CONFIG.mb_position = (self:GetValue())*(-1);
+						SUI_CONFIG.mb_position = math.floor(SUI_CONFIG.mb_position);
+						getglobal(self:GetName().."Text"):SetFormattedText(math.floor(SUI_CONFIG.mb_position),value);
+						setupMicroButtonandBagsbar();
+						--print(SUI_CONFIG.mb_position);
+					</OnValueChanged>
+				</Scripts>
+			</Slider>
+		</Frames>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="text1_$parentSlider32" inherits="GameFontNormalSmall" text="Move Bags and MicroButtons">
+					<Anchors>
+						<Anchor point="BOTTOM" relativeTo="$parentSlider32" relativePoint="TOP"  x="0" y="15"/>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+			
+		<!-- CHECKBUTTON: QTMOV -->
+		<Frames>
+			<CheckButton name="$parentCheckButton4" inherits="UICheckButtonTemplate" text="CheckButton4">
+				<Size>
+					<AbsDimension x="28" y="28" />
+				</Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentCheckButton2" relativePoint="BOTTOMLEFT"  x="0" y="-80"/>
+				</Anchors>
+				<Scripts>
+					<OnLoad>
+						getglobal(self:GetName()):SetChecked(SUI_CONFIG.QTmovable);
+					</OnLoad>
+					<OnClick>
+						SUI_CONFIG.QTmovable = getglobal(self:GetName()):GetChecked();
+						setupObjectiveFrames();
+						print("QuestTracker set to",SUI_CONFIG.QTmovable);
+					</OnClick>
+				</Scripts>
+			</CheckButton>
+		</Frames>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="text_$parentCheckButton4" inherits="GameFontHighlight" text="Set Quest Tracker Movable">
+					<Anchors>
+						<Anchor point="LEFT" relativeTo="$parentCheckButton4" relativePoint="RIGHT"  x="0" y="0"/>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		
+				<!-- CHECKBUTTON: QTMOV: FADE AND RESIZE -->
+		<Frames>
+			<CheckButton name="$parentCheckButton41" inherits="UICheckButtonTemplate" text="CheckButton3">
+				<Size>
+					<AbsDimension x="20" y="20" />
+				</Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentCheckButton4" relativePoint="BOTTOMLEFT"  x="50" y="0"/>
+				</Anchors>
+				<Scripts>
+					<OnLoad>
+						getglobal(self:GetName()):SetChecked(SUI_CONFIG.QTfadeandresize);
+					</OnLoad>
+					<OnClick>
+						SUI_CONFIG.QTfadeandresize = getglobal(self:GetName()):GetChecked();
+						setupObjectiveFrames();
+						print("QuestTracker set to",SUI_CONFIG.QTfadeandresize);
+					</OnClick>
+				</Scripts>
+			</CheckButton>
+		</Frames>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="text_$parentCheckButton41" inherits="GameFontNormalSmall" text="Fade and Resize Quest Tracker">
+					<Anchors>
+						<Anchor point="LEFT" relativeTo="$parentCheckButton41" relativePoint="RIGHT"  x="0" y="0"/>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+				
+		
+		<!-- CHECKBUTTON: CUSTOM CHAT -->
+		<Frames>
+			<CheckButton name="$parentCheckButton5" inherits="UICheckButtonTemplate" text="CheckButton5">
+				<Size>
+					<AbsDimension x="28" y="28" />
+				</Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentCheckButton4" relativePoint="BOTTOMLEFT"  x="0" y="-30"/>
+				</Anchors>
+				<Scripts>
+					<OnLoad>
+						getglobal(self:GetName()):SetChecked(SUI_CONFIG.CustomChat);
+					</OnLoad>
+					<OnClick>
+						SUI_CONFIG.CustomChat = getglobal(self:GetName()):GetChecked();
+						if not SUI_CONFIG.CustomChat then 
+						   print(SUI_INFO.title," |cffB18904/reload|r to CustomChat takes effect");
+						end
+						setupChatFrame();
+						print("CustomChat set to ",SUI_CONFIG.CustomChat);
+					</OnClick>
+				</Scripts>
+			</CheckButton>
+		</Frames>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="text_$parentCheckButton5" inherits="GameFontHighlight" text="Custom Chat: ">
+					<Anchors>
+						<Anchor point="LEFT" relativeTo="$parentCheckButton5" relativePoint="RIGHT"  x="0" y="0"/>
+					</Anchors>
+				</FontString>
+				<FontString name="text_$parentCheckButton5a" inherits="GameFontNormalSmall" text="Relocate the ChatFrameEditBox to the top of the chat and a few more improvements.">
+					<Anchors>
+						<Anchor point="LEFT" relativeTo="text_$parentCheckButton5" relativePoint="RIGHT"  x="0" y="0"/>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		
+		
+		<!-- CHECKBUTTON: ORDERHALLCOMMANDBAR -->
+		<Frames>
+			<CheckButton name="$parentCheckButton6" inherits="UICheckButtonTemplate" text="CheckButton7">
+				<Size>
+					<AbsDimension x="28" y="28" />
+				</Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentCheckButton5" relativePoint="BOTTOMLEFT"  x="0" y="-10"/>
+				</Anchors>
+				<Scripts>
+					<OnLoad>
+						getglobal(self:GetName()):SetChecked(SUI_CONFIG.HideOrderHallCommandBar);
+					</OnLoad>
+					<OnClick>
+						SUI_CONFIG.HideOrderHallCommandBar = getglobal(self:GetName()):GetChecked();
+						HideOrderHallCommandBar();
+						--print("HideOrderHallCommandBar set to ",SUI_CONFIG.HideOrderHallCommandBar);
+						print(SUI_INFO.title," |cffB18904/reload|r to OrderHallCommandBar takes effect");
+					</OnClick>
+				</Scripts>
+			</CheckButton>
+		</Frames>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="text_$parentCheckButton6" inherits="GameFontHighlight" text="Hide the OrderHallCommandBar">
+					<Anchors>
+						<Anchor point="LEFT" relativeTo="$parentCheckButton6" relativePoint="RIGHT"  x="0" y="0"/>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		
+		
+		<!-- ABOUT FRAME -->
+		<Frames>	
+			<Frame name="AboutFrame">
+				<Size>
+					<AbsDimension x="550" y="105" />
+				</Size>
+				<Anchors>
+					<Anchor point="BOTTOM" x="0" y="30"/>
+				</Anchors>
+				<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\Tooltips\UI-Tooltip-Border" tile="true">
+					<BackgroundInsets>
+						<AbsInset left="4" right="3" top="4" bottom="3" />
+					</BackgroundInsets>
+					<Color r="0.9" g="0.9" b="0.9" a="0.7" />
+					<TileSize>
+						<AbsValue val="12" />
+					</TileSize>
+					<EdgeSize>
+						<AbsValue val="12" />
+					</EdgeSize>
+				</Backdrop>
+				
+				<!-- ABOUT TEXT -->
+				<Layers>
+					<!--Version-->
+					<Layer level="ARTWORK">
+						<FontString name="$parentversion" inherits="GameFontNormalSmall" text="Version: " >
+							<Anchors>
+								<Anchor point="TOPLEFT" x="10" y="-15"/>
+							</Anchors>
+						</FontString>
+						<FontString name="$parentversiontext" inherits="GameFontHighlightSmall" text="SET_VERSION" >
+							<Anchors>
+								<Anchor point="LEFT" relativeTo="$parentversion" relativePoint="RIGHT" x="0" y="0"/>
+							</Anchors>
+							<Color r="0" g="128" b="0" a="1" />
+						</FontString>
+						
+					<!--Author-->
+					
+						<FontString name="$parentauthor" inherits="GameFontNormalSmall" text="Author: " >
+							<Anchors>
+								<Anchor point="TOPLEFT" relativeTo="$parentversion" relativePoint="BOTTOMLEFT" x="0" y="-10"/>
+							</Anchors>
+						</FontString>
+						<FontString name="$parentauthortext" inherits="GameFontHighlightSmall" text="JB" >
+							<Anchors>
+								<Anchor point="LEFT" relativeTo="$parentauthor" relativePoint="RIGHT" x="0" y="0"/>
+							</Anchors>
+							<!--<Color r="128" g="0" b="0" a="1" />-->
+						</FontString>
+
+					<!--WebSite-->
+
+						<FontString name="$parentwebsite" inherits="GameFontNormalSmall" text="WebSite: " >
+							<Anchors>
+								<Anchor point="TOPLEFT" relativeTo="$parentauthor" relativePoint="BOTTOMLEFT" x="0" y="-10"/>
+							</Anchors>
+						</FontString>
+						<FontString name="$parentwebsitetext" inherits="GameFontHighlightSmall" text="https://www.curseforge.com/wow/addons/simpleui-addon" >
+							<Anchors>
+								<Anchor point="LEFT" relativeTo="$parentwebsite" relativePoint="RIGHT" x="0" y="0"/>
+							</Anchors>
+							<Color r="0" g="71" b="179" a="1" />
+						</FontString>
+						
+					<!--GitHub-->
+
+						<FontString name="$parentgithub" inherits="GameFontNormalSmall" text="GitHub: " >
+							<Anchors>
+								<Anchor point="TOPLEFT" relativeTo="$parentwebsite" relativePoint="BOTTOMLEFT" x="0" y="-10"/>
+							</Anchors>
+						</FontString>
+						<FontString name="$parentgithubtext" inherits="GameFontHighlightSmall" text="https://github.com/jaumerp/SimpleUI" >
+							<Anchors>
+								<Anchor point="LEFT" relativeTo="$parentgithub" relativePoint="RIGHT" x="0" y="0"/>
+							</Anchors>
+							<Color r="0" g="71" b="179" a="1" />
+						</FontString>
+					</Layer>
+				</Layers>
+			</Frame>
+			
+		</Frames>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="text_About" inherits="GameFontNormal" text="About">
+					<Anchors>
+						<Anchor point="BOTTOMLEFT" relativeTo="AboutFrame" relativePoint="TOPLEFT"  x="10" y="5"/>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		
+		<!-- BUTTONS: RESET DEFAULTS & RELOAD UI -->
+		<Frames>
+			<Button name="Button_Defaults" inherits="UIPanelButtonTemplate" text="Reset to Defaults">
+				<Size>
+					<AbsDimension x="130" y="23" />
+				</Size>
+				<Anchors>
+					<Anchor point="BOTTOMRIGHT" relativeTo="AboutFrame" relativePoint="TOP" x="-25" y="40"/>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						SUI_CONFIG=SUI_CONFIG_DEFAULT;
+						print(SUI_INFO.title," |cffB18904/reload|r to DEFAULTS");
+					</OnClick>
+
+				</Scripts>
+			</Button>
+
+			<Button name="Button_ReloadUI" inherits="UIPanelButtonTemplate" text="Reload UI">
+				<Size>
+					<AbsDimension x="85" y="23" />
+				</Size>
+				<Anchors>
+					<Anchor point="BOTTOMLEFT" relativeTo="AboutFrame" relativePoint="TOP" x="25" y="40"/>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						ReloadUI();
+					</OnClick>
+				</Scripts>
+			</Button>
+		</Frames>
+		
+	</Frame>
+</Ui>
