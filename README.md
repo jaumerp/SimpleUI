@@ -1,7 +1,6 @@
 # SimpleUI
 <p>A simplified Blizzard interface based on the original system.<p>
 <p>Due to changes on new Blizzard expansion, SIMPLEUI has some new features but it does not modify the new Actions Bars (maybe in a future).</p>
-<br>
 <p><b>Some features:</b>
 <ul>
   <li>Hide/Show BagSlots and Microbuttons</li>
